@@ -1,0 +1,3 @@
+DROP TABLE IF EXISTS product_on_stock;
+DROP TABLE IF EXISTS stocks;
+DROP TABLE IF EXISTS products;

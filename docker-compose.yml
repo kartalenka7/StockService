@@ -1,0 +1,50 @@
+  services:
+   stock-service:
+    container_name: stock-service
+    build: ./
+    command: ./stock-service
+    environment:
+      RUN_ADDR: ":3030"
+      LOG_LEVEL: INFO
+      DSN_STRING: "postgres://lamoda_user:lamoda_pass@postgres:5432/postgres_db?sslmode=disable"
+    restart: always
+    ports:
+    - 3030:3030
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+   postgres:
+    container_name: postgres
+    image: postgres:14.3-alpine
+    environment:
+      POSTGRES_DB: postgres_db
+      PGDATABASE: postgres_db
+      POSTGRES_USER: lamoda_user
+      PGUSER: lamoda_user
+      POSTGRES_PASSWORD: lamoda_pass
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready", "-d", "postgres_db" ]
+      interval: 15s
+      timeout: 15s
+      retries: 5
+    ports: 
+    - 5436:5432
+    restart: always 
+
+   migrate:
+    image: migrate/migrate:v4.15.2
+    volumes:
+      - ./migrations:/migrations
+    entrypoint:
+      [
+        "migrate",
+        "-path",
+        "/migrations",
+        "-database",
+        "postgres://lamoda_user:lamoda_pass@postgres:5432/postgres_db?sslmode=disable",
+      ]
+    command: ["up"]
+    depends_on:
+      postgres:
+        condition: service_healthy

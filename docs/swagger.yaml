@@ -1,0 +1,119 @@
+basePath: /
+definitions:
+  model.ErrorResponse:
+    properties:
+      error:
+        type: string
+    type: object
+  model.Products:
+    properties:
+      product_id:
+        type: integer
+      quantity:
+        type: integer
+    required:
+    - product_id
+    type: object
+  model.ReservedProducts:
+    properties:
+      products:
+        items:
+          $ref: '#/definitions/model.Products'
+        type: array
+      stock_id:
+        type: integer
+    required:
+    - stock_id
+    type: object
+  model.Stock:
+    properties:
+      stock_id:
+        type: integer
+    required:
+    - stock_id
+    type: object
+host: localhost:3030
+info:
+  contact: {}
+  description: С помощью API можно резервировать товары, снимать резерв и получать
+    информацию о доступных на складе товарах
+  title: API для управления товарами на складах
+  version: "1.0"
+paths:
+  /product:
+    delete:
+      parameters:
+      - description: Товары для освобождения
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/model.ReservedProducts'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Successful response
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Освобождение товаров из резерва
+      tags:
+      - product
+    post:
+      parameters:
+      - description: Товары для резервирования
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/model.ReservedProducts'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Successful response
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Резервирование товаров
+      tags:
+      - product
+  /stock:
+    get:
+      parameters:
+      - description: ID склада
+        in: body
+        name: object
+        required: true
+        schema:
+          $ref: '#/definitions/model.Stock'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.Products'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/model.ErrorResponse'
+      summary: Получение кол-ва оставшихся товаров на складе
+      tags:
+      - stock
+swagger: "2.0"
