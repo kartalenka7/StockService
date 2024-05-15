@@ -4,7 +4,9 @@ import (
 	"context"
 	"lamoda/internal/model"
 	"net/http"
+	"strconv"
 
+	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/render"
 	"github.com/go-playground/validator/v10"
 	"github.com/sirupsen/logrus"
@@ -91,26 +93,27 @@ func (server *Server) handlerDeleteReservation(rw http.ResponseWriter, r *http.R
 // @Summary	Получение кол-ва оставшихся товаров на складе
 // @Tags		stock
 // @Produce	json
-// @Param		object	body		model.Stock	true	"ID склада"
-// @Success	200		{object}	model.Products
-// @Failure	400		{object}	model.ErrorResponse
-// @Failure	500		{object}	model.ErrorResponse
+// @Param		id	path		int	true	"ID склада"
+// @Success	200	{object}	model.Products
+// @Failure	400	{object}	model.ErrorResponse
+// @Failure	500	{object}	model.ErrorResponse
 //
-// @Router		/stock [get]
+// @Router		/stock/{id} [get]
 func (server *Server) handlerGetAvailableQty(rw http.ResponseWriter, r *http.Request) {
-	var stock model.Stock
-	if err := render.DecodeJSON(r.Body, &stock); err != nil {
-		server.log.Error(err.Error())
+
+	stockId, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		server.log.Error(model.ErrStockIdIsInitial)
 		ErrorResponse(err, rw, r, http.StatusBadRequest)
 		return
 	}
 
-	if err := validator.New().Struct(stock); err != nil {
-		server.log.Error(err.Error())
-		ErrorResponse(err, rw, r, http.StatusBadRequest)
+	if stockId <= 0 {
+		server.log.Error(model.ErrStockIdIsInitial)
+		ErrorResponse(model.ErrStockIdIsInitial, rw, r, http.StatusBadRequest)
 		return
 	}
-	availableProducts, err := server.service.SelectAvailableQty(r.Context(), stock.StockID)
+	availableProducts, err := server.service.SelectAvailableQty(r.Context(), stockId)
 	if err != nil {
 		ErrorResponse(err, rw, r, http.StatusInternalServerError)
 		return

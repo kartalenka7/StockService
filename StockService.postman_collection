@@ -1,0 +1,68 @@
+{
+	"info": {
+		"_postman_id": "181b399b-f09c-4803-b45c-819f555d7ea4",
+		"name": "Stock service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "23410371"
+	},
+	"item": [
+		{
+			"name": "Make reservation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"products\": [\r\n    {\r\n      \"product_id\": 2,\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"stock_id\": 1\r\n}"
+				},
+				"url": "http://localhost:3030/product"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete reservation",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"products\": [\r\n    {\r\n      \"product_id\": 2,\r\n      \"quantity\": 1\r\n    }\r\n  ],\r\n  \"stock_id\": 1\r\n}"
+				},
+				"url": "http://localhost:3030/product"
+			},
+			"response": []
+		},
+		{
+			"name": "Get available quantity",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accept",
+						"value": "application/json"
+					}
+				],
+				"url": "http://localhost:3030/stock/1"
+			},
+			"response": []
+		}
+	]
+}

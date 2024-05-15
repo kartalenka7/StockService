@@ -13,8 +13,8 @@ CREATE TABLE IF NOT EXISTS products (
 CREATE TABLE IF NOT EXISTS product_on_stock (
     stock_id integer,
     product_id integer,
-    available_qty bigint,
-    reserved_qty bigint DEFAULT 0,
+    available_qty integer,
+    reserved_qty integer DEFAULT 0,
     CONSTRAINT stock_fkey
     FOREIGN KEY (stock_id) REFERENCES stocks (stock_id),
     CONSTRAINT product_fkey

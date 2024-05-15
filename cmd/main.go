@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"lamoda/internal/logger"
 	"lamoda/internal/server"
@@ -9,6 +10,7 @@ import (
 	"net/http"
 	"os"
 
+	"github.com/jackc/pgx/v5"
 	"github.com/joho/godotenv"
 )
 
@@ -22,12 +24,21 @@ func main() {
 
 	godotenv.Load()
 	log := logger.InitLogger(os.Getenv("LOG_LEVEL"))
-	storage, err := storage.NewStorage(os.Getenv("DSN_STRING"), log)
+
+	ctx := context.Background()
+	conn, err := pgx.Connect(ctx, os.Getenv("DSN_STRING"))
 	if err != nil {
 		log.Fatal(err.Error())
 		return
 	}
-	defer storage.Close()
+	log.Info("Connected to postgres")
+	defer conn.Close(ctx)
+
+	storage, err := storage.NewStorage(conn, log)
+	if err != nil {
+		log.Fatal(err.Error())
+		return
+	}
 
 	service := service.NewService(storage)
 

@@ -8,22 +8,18 @@ import (
 )
 
 type serviceStorer interface {
-	ReserveProducts(ctx context.Context, ReservedProducts model.ReservedProducts) error
-	DeleteReservation(ctx context.Context, ReservedProducts model.ReservedProducts) error
+	ReserveProduct(ctx context.Context, stockId int, product model.Products) error
+	DeleteReservation(ctx context.Context, stockId int, product model.Products) error
 	GetAvailableQty(ctx context.Context, stockID int) ([]model.Products, error)
 	CheckStockAvailability(ctx context.Context, stockID int) error
 }
 
-type ServiceMethods interface {
-	product.ProductService
-	stock.StockService
-}
 type service struct {
-	product.ProductService
-	stock.StockService
+	*product.ProductService
+	*stock.StockService
 }
 
-func NewService(storer serviceStorer) ServiceMethods {
+func NewService(storer serviceStorer) *service {
 	return &service{
 		product.NewProductService(storer),
 		stock.NewStockService(storer),

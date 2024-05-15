@@ -6,34 +6,43 @@ import (
 )
 
 type productStorer interface {
-	ReserveProducts(ctx context.Context, products model.ReservedProducts) error
-	DeleteReservation(ctx context.Context, ReservedProducts model.ReservedProducts) error
+	ReserveProduct(ctx context.Context, stockId int, product model.Products) error
+	DeleteReservation(ctx context.Context, stockId int, product model.Products) error
 	CheckStockAvailability(ctx context.Context, stockID int) error
 }
 
-type ProductService interface {
-	MakeReservation(ctx context.Context, products model.ReservedProducts) error
-	DeleteReservation(ctx context.Context, products model.ReservedProducts) error
-}
-
-type productService struct {
+type ProductService struct {
 	storage productStorer
 }
 
-func NewProductService(storer productStorer) ProductService {
-	return &productService{storage: storer}
+func NewProductService(storer productStorer) *ProductService {
+	return &ProductService{storage: storer}
 }
 
-func (p *productService) MakeReservation(ctx context.Context, products model.ReservedProducts) error {
+func (p *ProductService) MakeReservation(ctx context.Context,
+	products model.ReservedProducts) error {
 	if err := p.storage.CheckStockAvailability(ctx, products.StockID); err != nil {
 		return err
 	}
-	return p.storage.ReserveProducts(ctx, products)
+	for _, product := range products.Products {
+		err := p.storage.ReserveProduct(ctx, products.StockID, product)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }
 
-func (p *productService) DeleteReservation(ctx context.Context, products model.ReservedProducts) error {
+func (p *ProductService) DeleteReservation(ctx context.Context,
+	products model.ReservedProducts) error {
 	if err := p.storage.CheckStockAvailability(ctx, products.StockID); err != nil {
 		return err
 	}
-	return p.storage.DeleteReservation(ctx, products)
+	for _, product := range products.Products {
+		err := p.storage.DeleteReservation(ctx, products.StockID, product)
+		if err != nil {
+			return err
+		}
+	}
+	return nil
 }

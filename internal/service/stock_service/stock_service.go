@@ -10,21 +10,17 @@ type stockStorer interface {
 	CheckStockAvailability(ctx context.Context, stockID int) error
 }
 
-type StockService interface {
-	SelectAvailableQty(ctx context.Context, stockID int) ([]model.Products, error)
-}
-
-type stockService struct {
+type StockService struct {
 	storage stockStorer
 }
 
-func NewStockService(storer stockStorer) StockService {
-	return &stockService{
+func NewStockService(storer stockStorer) *StockService {
+	return &StockService{
 		storage: storer,
 	}
 }
 
-func (s *stockService) SelectAvailableQty(ctx context.Context, stockID int) ([]model.Products, error) {
+func (s *StockService) SelectAvailableQty(ctx context.Context, stockID int) ([]model.Products, error) {
 	if err := s.storage.CheckStockAvailability(ctx, stockID); err != nil {
 		return nil, err
 	}
