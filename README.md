@@ -21,11 +21,11 @@ make test
 Запустить миграцию
 
 ````
-migrate-up:
+make migrate-up
 ````	
 
 Откатить миграцию
 
 ````
-migrate-down:
+make migrate-down
 ````
