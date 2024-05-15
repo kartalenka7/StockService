@@ -3,8 +3,8 @@ package service
 import (
 	"context"
 	"lamoda/internal/model"
-	product "lamoda/internal/service/product_service"
-	stock "lamoda/internal/service/stock_service"
+	"lamoda/internal/service/product"
+	"lamoda/internal/service/stock"
 )
 
 type serviceStorer interface {

@@ -1,4 +1,4 @@
-package stock_service
+package stock
 
 import (
 	"context"
