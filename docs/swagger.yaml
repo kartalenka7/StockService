@@ -25,13 +25,6 @@ definitions:
     required:
     - stock_id
     type: object
-  model.Stock:
-    properties:
-      stock_id:
-        type: integer
-    required:
-    - stock_id
-    type: object
 host: localhost:3030
 info:
   contact: {}
@@ -89,15 +82,14 @@ paths:
       summary: Резервирование товаров
       tags:
       - product
-  /stock:
+  /stock/{id}:
     get:
       parameters:
       - description: ID склада
-        in: body
-        name: object
+        in: path
+        name: id
         required: true
-        schema:
-          $ref: '#/definitions/model.Stock'
+        type: integer
       produces:
       - application/json
       responses:

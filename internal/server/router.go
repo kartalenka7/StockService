@@ -21,7 +21,7 @@ func NewRouter(service serviceInterface, log *logrus.Logger, runAddr string) chi
 		r.Delete("/", server.handlerDeleteReservation)
 	})
 
-	router.Get("/stock", server.handlerGetAvailableQty)
+	router.Get("/stock/{id}", server.handlerGetAvailableQty)
 	router.Get("/swagger/*", swagger.Handler(
 		swagger.URL("http://localhost"+runAddr+"/swagger/doc.json"),
 	))

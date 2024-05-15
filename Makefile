@@ -13,4 +13,7 @@ migrate-down:
 	docker compose  --profile tools run --rm migrate down
 
 build:
-	docker compose --build stock-service
+	docker compose up --build stock-service -d
+
+test:
+			go test ./...

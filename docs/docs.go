@@ -91,7 +91,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/stock": {
+        "/stock/{id}": {
             "get": {
                 "produces": [
                     "application/json"
@@ -102,13 +102,11 @@ const docTemplate = `{
                 "summary": "Получение кол-ва оставшихся товаров на складе",
                 "parameters": [
                     {
+                        "type": "integer",
                         "description": "ID склада",
-                        "name": "object",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.Stock"
-                        }
+                        "name": "id",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -169,17 +167,6 @@ const docTemplate = `{
                         "$ref": "#/definitions/model.Products"
                     }
                 },
-                "stock_id": {
-                    "type": "integer"
-                }
-            }
-        },
-        "model.Stock": {
-            "type": "object",
-            "required": [
-                "stock_id"
-            ],
-            "properties": {
                 "stock_id": {
                     "type": "integer"
                 }
