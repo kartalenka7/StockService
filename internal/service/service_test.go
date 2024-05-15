@@ -26,11 +26,7 @@ func (suite *ServiceTestSuite) SetupSuite() {
 }
 
 func (suite *ServiceTestSuite) SetupTest() {
-
 	ctrl := gomock.NewController(suite.T())
 	suite.productStorer = mocks.NewMockproductStorer(ctrl)
 	suite.stockStorer = mocks.NewMockstockStorer(ctrl)
-}
-
-func (suite *ServiceTestSuite) TearDownTest() {
 }

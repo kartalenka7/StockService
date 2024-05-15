@@ -23,6 +23,7 @@ definitions:
       stock_id:
         type: integer
     required:
+    - products
     - stock_id
     type: object
 host: localhost:3030
@@ -46,7 +47,7 @@ paths:
       - application/json
       responses:
         "200":
-          description: Successful response
+          description: Резервирование удалено
         "400":
           description: Bad Request
           schema:
@@ -69,8 +70,8 @@ paths:
       produces:
       - application/json
       responses:
-        "201":
-          description: Successful response
+        "200":
+          description: Товар зарезервирован
         "400":
           description: Bad Request
           schema:

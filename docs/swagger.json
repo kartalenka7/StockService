@@ -30,8 +30,8 @@
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Successful response"
+                    "200": {
+                        "description": "Товар зарезервирован"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -68,7 +68,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Резервирование удалено"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -152,6 +152,7 @@
         "model.ReservedProducts": {
             "type": "object",
             "required": [
+                "products",
                 "stock_id"
             ],
             "properties": {

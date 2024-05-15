@@ -36,7 +36,7 @@ func ErrorResponse(err error, rw http.ResponseWriter, r *http.Request, status in
 // @Tags		product
 // @Produce	json
 // @Param		object	body	model.ReservedProducts	true	"Товары для резервирования"
-// @Success	201		"Successful response"
+// @Success	200		"Товар зарезервирован"
 // @Failure	400		{object}	model.ErrorResponse
 // @Failure	500		{object}	model.ErrorResponse
 //
@@ -58,14 +58,14 @@ func (server *Server) handlerMakeReservation(rw http.ResponseWriter, r *http.Req
 		ErrorResponse(err, rw, r, http.StatusInternalServerError)
 		return
 	}
-	rw.WriteHeader(http.StatusCreated)
+	rw.WriteHeader(http.StatusOK)
 }
 
 // @Summary	Освобождение товаров из резерва
 // @Tags		product
 // @Produce	json
 // @Param		object	body	model.ReservedProducts	true	"Товары для освобождения"
-// @Success	200		"Successful response"
+// @Success	200		"Резервирование удалено"
 // @Failure	400		{object}	model.ErrorResponse
 // @Failure	500		{object}	model.ErrorResponse
 //

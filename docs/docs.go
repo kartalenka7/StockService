@@ -36,8 +36,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "201": {
-                        "description": "Successful response"
+                    "200": {
+                        "description": "Товар зарезервирован"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -74,7 +74,7 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Successful response"
+                        "description": "Резервирование удалено"
                     },
                     "400": {
                         "description": "Bad Request",
@@ -158,6 +158,7 @@ const docTemplate = `{
         "model.ReservedProducts": {
             "type": "object",
             "required": [
+                "products",
                 "stock_id"
             ],
             "properties": {
