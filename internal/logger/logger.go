@@ -16,6 +16,8 @@ func InitLogger(level string) *logrus.Logger {
 	switch level {
 	case "error":
 		log.Level = logrus.ErrorLevel
+	case "fatal":
+		log.Level = logrus.FatalLevel
 	default:
 		log.Level = logrus.InfoLevel
 	}

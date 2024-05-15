@@ -41,8 +41,10 @@ VALUES
 INSERT INTO product_on_stock
     (stock_id, product_id, available_qty)
 VALUES
-    ( 1, 1, 5),
+    ( 1, 1, 5 ),
     ( 1, 2, 3 ),
     ( 1, 3, 10 ),
-    ( 2, 4, 1 );
+    ( 2, 4, 1 ),
+    ( 3, 5, 58 ),
+    ( 3, 4, 221 );
     
